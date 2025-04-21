@@ -3,7 +3,7 @@ pipeline {
 
   environment {
     DOCKER_IMAGE = 'bavijaswanth/ci-cd-app'
-    TAG = "${v1.0}"
+    TAG = "v1.0"
   }
 
   stages {
