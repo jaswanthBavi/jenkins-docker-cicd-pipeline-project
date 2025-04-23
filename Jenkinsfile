@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "jaswanthbavi/demo-app"  
+        IMAGE_NAME = "bavijaswanth/demo-app"
         TAG = "latest"
     }
 
@@ -15,16 +15,18 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$TAG .'
+                sh 'stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t bavijaswanth/demo-app:latest .'
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: '5c3c58fd-724f-4b8b-9602-2b8e824b4232', usernameVariable: 'bavijaswanth', passwordVariable: 'Jaswanth@0227')]) {
                     sh '''
-                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                    docker push $IMAGE_NAME:$TAG
+                    echo "$bavijaswanth" | docker login -u "$bavijaswanth" --password-stdin
+                    docker push bavijaswanth/demo-app:latest
                     '''
                 }
             }
@@ -33,14 +35,13 @@ pipeline {
         stage('Deploy Locally') {
             steps {
                 sh '''
-                docker pull $IMAGE_NAME:$TAG
-                docker stop app || true
-                docker rm app || true
-                docker run -d --name app -p 3000:3000 $IMAGE_NAME:$TAG
+                docker pull bavijaswanth/demo-app:latest
+                docker stop demo-app || true && docker rm demo-app || true
+                docker run -d --name demo-app -p 3000:3000 bavijaswanth/demo-app:latest
+
                 '''
             }
         }
     }
 }
-
 
