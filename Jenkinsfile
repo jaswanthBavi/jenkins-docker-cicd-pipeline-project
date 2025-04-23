@@ -20,15 +20,20 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: '5c3c58fd-724f-4b8b-9602-2b8e824b4232', usernameVariable: 'bavijaswanth', passwordVariable: 'Jaswanth@0227')]) {
-                    sh '''
-                    echo "$bavijaswanth" | docker login -u "$bavijaswanth" --password-stdin
-                    docker push bavijaswanth/demo-app:latest
-                    '''
-                }
-            }
+                withCredentials([
+                usernamePassword(
+                credentialsId: '5c3c58fd-724f-4b8b-9602-2b8e824b4232',
+                usernameVariable: 'DOCKER_USER',
+                passwordVariable: 'DOCKER_PASS'
+            )
+        ]) {
+            sh '''
+                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                docker push bavijaswanth/demo-app:latest
+            '''
         }
-
+    }
+}
         stage('Deploy Locally') {
             steps {
                 sh '''
