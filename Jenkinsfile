@@ -12,10 +12,7 @@ pipeline {
                 git 'https://github.com/jaswanthBavi/jenkins-docker-cicd-pipeline-project.git'
             }
         }
-
         stage('Build Docker Image') {
-            steps {
-                sh 'stage('Build Docker Image') {
             steps {
                 sh 'docker build -t bavijaswanth/demo-app:latest .'
             }
